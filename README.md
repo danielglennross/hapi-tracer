@@ -3,7 +3,8 @@
 
 Compatible with:
 - node >=8.6.0
-- hapi 16.x.x 
+- hapi 16.x.x
+- wreck 8.x.x
 
 ## Install
 `npm install --save hapi-tracer`
