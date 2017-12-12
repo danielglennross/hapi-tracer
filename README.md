@@ -27,6 +27,7 @@ server.register({
 
 ## Options
 `record` is a function that consumes a `trace` object. Use this function to record the request trace.
+During a hapi request lifecycle - hapi middleware, methods and handlers are traced. Any http calls via wreck are also traced.
 ```javascript
 {
  meta: {},                    // user generated meta
@@ -34,17 +35,22 @@ server.register({
    middleware: {
      duration: 10,            // aggregated duration in ms
      count: 1,                // aggregated count
-     percent: 33.33           // aggregated % of total request latency
+     percent: 25              // aggregated % of total request latency
    },
    methods: {
      duration: 10,
      count: 1
-     percent: 33.33
+     percent: 25
    },
    handlers: {
      duration: 10,
      count: 1
-     percent: 33.33
+     percent: 25
+   },
+   http: {
+     duration: 10,
+     count: 1
+     percent: 25
    }
  },
  trace: [                     // ordered trace items
@@ -60,13 +66,13 @@ server.register({
    },
    {
      type: 'Handler',
-     subType: getData
+     subType: 'getData',
      fncName: '<anonymous>',
      arity: 2,
-     start: 1000020,
-     end: 1000030,
+     start: 1000010,
+     end: 1000020,
      duration: 10,
-     percent: 33.33
+     percent: 25
    },
    {
      type: 'Method',
@@ -76,7 +82,17 @@ server.register({
      start: 1000020,
      end: 1000030,
      duration: 10,
-     percent: 33.33
+     percent: 25
+   },
+   {
+     type: 'Http',
+     subType: 'request',
+     fncName: '<anonymous>',
+     arity: 3,
+     start: 1000030,
+     end: 1000040,
+     duration: 10,
+     percent: 25
    },
  ]
 }
