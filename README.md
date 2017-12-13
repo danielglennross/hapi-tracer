@@ -14,6 +14,8 @@ Compatible with:
 server.register({
   register: require('hapi-tracer'),
   options: {
+    hapi: require('hapi'),
+    wreck: require('wreck'),
     record: (trace) => console.log(`request trace: ${trace}`),
     generateMeta: (request) => ({ 
       route: `[${request.method}] ${request.path}`,
@@ -26,7 +28,11 @@ server.register({
 ```
 
 ## Options
-`record` is a function that consumes a `trace` object. Use this function to record the request trace.
+`hapi` - to instrument hapi, require hapi and assign.
+
+`wreck` - to instrument wreck, require wreck and assign.
+
+`record` - record is a function that consumes a `trace` object. Use this function to record the request trace.
 During a hapi request lifecycle - hapi middleware, methods and handlers are traced. Any http calls via wreck are also traced.
 ```javascript
 {
@@ -98,5 +104,5 @@ During a hapi request lifecycle - hapi middleware, methods and handlers are trac
 }
 ```
 
-`generateMeta` is an optional function that consumes a hapi request, the result of which will be appended to the `trace` object as `meta`.
+`generateMeta` - is an optional function that consumes a hapi request, the result of which will be appended to the `trace` object as `meta`.
 Use this function to generate tags or meta data for your traces.
