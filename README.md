@@ -1,5 +1,5 @@
 # hapi-tracer
-`hapi-tracer` traces hapi requests and provides a full lifecycle trace.
+`hapi-tracer` provides a full hapi lifecycle trace.
 
 Compatible with:
 - node >=8.6.0

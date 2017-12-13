@@ -1,7 +1,7 @@
 {
   "name": "hapi-tracer",
   "version": "1.1.1",
-  "description": "dynamically filter api responses",
+  "description": "provides a full hapi lifecycle trace",
   "main": "lib/index.js",
   "scripts": {
     "test": ""
