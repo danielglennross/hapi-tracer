@@ -5,6 +5,7 @@ Compatible with:
 - node >=8.6.0
 - hapi 16.x.x
 - wreck 8.x.x
+- catbox 7.x.x
 
 ## Install
 `npm install --save hapi-tracer`
@@ -16,6 +17,7 @@ server.register({
   options: {
     hapi: require('hapi'),
     wreck: require('wreck'),
+    catbox: require('catbox'),
     record: (trace) => console.log(`request trace: ${trace}`),
     generateMeta: (request) => ({ 
       route: `[${request.method}] ${request.path}`,
@@ -32,6 +34,8 @@ server.register({
 
 `wreck` - to instrument wreck, require wreck and assign.
 
+`catbox` - to instrument catbox, require catbox and assign.
+
 `record` - record is a function that consumes a `trace` object. Use this function to record the request trace.
 During a hapi request lifecycle - hapi middleware, methods and handlers are traced. Any http calls via wreck are also traced.
 ```javascript
@@ -41,22 +45,32 @@ During a hapi request lifecycle - hapi middleware, methods and handlers are trac
    middleware: {
      duration: 10,            // aggregated duration in ms
      count: 1,                // aggregated count
-     percent: 25              // aggregated % of total request latency
+     percent: 16.67           // aggregated % of total request latency
    },
    methods: {
      duration: 10,
      count: 1
-     percent: 25
+     percent: 16.67
    },
    handlers: {
      duration: 10,
      count: 1
-     percent: 25
+     percent: 16.67
    },
-   http: {
+   wreck: {
      duration: 10,
      count: 1
-     percent: 25
+     percent: 16.67
+   },
+   catbox: {
+     duration: 10,
+     count: 1
+     percent: 16.67
+   },
+   custom: {
+     duration: 10,
+     count: 1
+     percent: 16.67
    }
  },
  trace: [                     // ordered trace items
@@ -68,7 +82,7 @@ During a hapi request lifecycle - hapi middleware, methods and handlers are trac
      start: 1000000,          // unix timestamp
      end: 1000010,            // unix timestamp
      duration: 10,            // ms
-     percent: 33.33           // % of total request latency
+     percent: 16.67           // % of total request latency
    },
    {
      type: 'Handler',
@@ -78,7 +92,7 @@ During a hapi request lifecycle - hapi middleware, methods and handlers are trac
      start: 1000010,
      end: 1000020,
      duration: 10,
-     percent: 25
+     percent: 16.67
    },
    {
      type: 'Method',
@@ -88,24 +102,46 @@ During a hapi request lifecycle - hapi middleware, methods and handlers are trac
      start: 1000020,
      end: 1000030,
      duration: 10,
-     percent: 25
+     percent: 16.67
    },
    {
-     type: 'Http',
+     type: 'Wreck',
      subType: 'request',
      fncName: '<anonymous>',
      arity: 3,
      start: 1000030,
      end: 1000040,
      duration: 10,
-     percent: 25
+     percent: 16.67
    },
+   {
+     type: 'Catbox',
+     subType: 'request',
+     fncName: '<anonymous>',
+     arity: 3,
+     start: 1000040,
+     end: 1000050,
+     duration: 10,
+     percent: 16.67
+   },
+   {
+     type: 'Custom',
+     subType: 'request',
+     fncName: '<anonymous>',
+     arity: 3,
+     start: 1000050,
+     end: 1000060,
+     duration: 10,
+     percent: 16.67
+   }
  ]
 }
 ```
 
 `generateMeta` - is an optional function that consumes a hapi request, the result of which will be appended to the `trace` object as `meta`.
 Use this function to generate tags or meta data for your traces.
+
+NB. Any uncovered time is recorded as `unknown`.
 
 ## Custom
 
