@@ -1,6 +1,6 @@
 {
   "name": "hapi-tracer",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "provides a full hapi lifecycle trace",
   "main": "lib/index.js",
   "scripts": {
