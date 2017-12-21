@@ -106,3 +106,30 @@ During a hapi request lifecycle - hapi middleware, methods and handlers are trac
 
 `generateMeta` - is an optional function that consumes a hapi request, the result of which will be appended to the `trace` object as `meta`.
 Use this function to generate tags or meta data for your traces.
+
+## Custom
+
+`recordFn` and `recordProto` are also exposed on the `hapi.server` object - allowing you to append custom trace items.
+
+`recordFn` example:
+```javascript
+  // decorate an inline function
+  const fn = server.plugins['hapi-tracer'].recordFn(() => {...}, {
+    name: 'MyFunc',
+    type: 'Custom',
+    isCb: false // is callback based
+  });
+
+  // execute function
+  const result = fn(args);
+```
+
+`recordProto` example:
+```javascript
+  // decorate a prototype function 
+  server.plugins['hapi-tracer'].recordProto(MyObjectPrototype, 'target', {
+    name: 'MyFunc',
+    type: 'Custom',
+    isCb: false
+  });
+```
